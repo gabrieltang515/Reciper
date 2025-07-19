@@ -3,7 +3,6 @@ import { ThemeProvider } from "styled-components";
 import styled from "styled-components";
 import { darkTheme, lightTheme } from './utils/Themes.js';
 import SearchBar from './components/SearchBar';
-import RecipeScraper from './components/RecipeScraper';
 import RecipeList from './components/RecipeList';
 import RecipeDisplay from './components/RecipeDisplay';
 import ErrorMessage from './components/ErrorMessage';
@@ -30,6 +29,14 @@ const ContentWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+`
+
+const InfoText = styled.p`
+  text-align: center;
+  color: ${({ theme }) => theme.text_secondary};
+  font-size: 14px;
+  margin: 1rem 0;
+  opacity: 0.8;
 `
 
 function App() {
@@ -123,6 +130,10 @@ function App() {
     }
   };
 
+  const handleCloseRecipe = () => {
+    setSelectedRecipe(null);
+  };
+
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}> 
       <Body> 
@@ -130,8 +141,14 @@ function App() {
         <Wrapper>
           <ContentWrapper>
             <Title />
-            <SearchBar onSearch={handleSearch} placeholder="Search for recipes..." />
-            <RecipeScraper onScrape={handleScrape} loading={loading} />
+            <SearchBar 
+              onSearch={handleSearch} 
+              placeholder="Search for recipes (e.g., chicken rice, pasta, chocolate cake)..." 
+              loading={loading}
+            />
+            <InfoText>
+              💡 Tip: Click on any recipe card to view detailed ingredients and instructions
+            </InfoText>
             <ErrorMessage message={error} />
             
             {/* Show search message */}
@@ -152,7 +169,7 @@ function App() {
             
             {/* Show scraped recipe details */}
             {selectedRecipe && (
-              <RecipeDisplay recipe={selectedRecipe} />
+              <RecipeDisplay recipe={selectedRecipe} onClose={handleCloseRecipe} />
             )}
           </ContentWrapper>
         </Wrapper>

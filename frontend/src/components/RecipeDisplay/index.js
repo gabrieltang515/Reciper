@@ -10,16 +10,24 @@ import {
   RecipeSectionTitle, 
   IngredientsList, 
   InstructionsList,
-  MetaItem 
+  MetaItem,
+  RecipeNote,
+  CloseButton
 } from './styles';
 
-const RecipeDisplay = ({ recipe }) => {
+const RecipeDisplay = ({ recipe, onClose }) => {
   const theme = useTheme();
 
   if (!recipe) return null;
 
   return (
     <RecipeCard theme={theme}>
+      {onClose && (
+        <CloseButton onClick={onClose} theme={theme}>
+          ✕
+        </CloseButton>
+      )}
+      
       <RecipeHeader>
         <RecipeTitle theme={theme}>{recipe.title}</RecipeTitle>
         {recipe.image && (
@@ -31,7 +39,16 @@ const RecipeDisplay = ({ recipe }) => {
         {recipe.prepTime && <MetaItem>⏱️ Prep: {recipe.prepTime}</MetaItem>}
         {recipe.cookTime && <MetaItem>🔥 Cook: {recipe.cookTime}</MetaItem>}
         {recipe.servings && <MetaItem>👥 Serves: {recipe.servings}</MetaItem>}
+        {recipe.category && <MetaItem>🍽️ Category: {recipe.category}</MetaItem>}
+        {recipe.area && <MetaItem>🌍 Cuisine: {recipe.area}</MetaItem>}
       </RecipeMeta>
+
+      {/* Show note for fallback recipes */}
+      {recipe.note && (
+        <RecipeNote theme={theme}>
+          <strong>ℹ️ Note:</strong> {recipe.note}
+        </RecipeNote>
+      )}
 
       {recipe.ingredients && recipe.ingredients.length > 0 && (
         <RecipeSection>
@@ -49,10 +66,19 @@ const RecipeDisplay = ({ recipe }) => {
           <RecipeSectionTitle theme={theme}>📝 Instructions</RecipeSectionTitle>
           <InstructionsList theme={theme}>
             {recipe.instructions.map((instruction, index) => (
-              <li key={index}>{instruction}</li>
+              <li key={index}>
+                <strong>Step {index + 1}:</strong> {instruction}
+              </li>
             ))}
           </InstructionsList>
         </RecipeSection>
+      )}
+
+      {/* Show source link if available */}
+      {recipe.source && !recipe.note && (
+        <RecipeNote theme={theme}>
+          <strong>📰 Source:</strong> {recipe.source}
+        </RecipeNote>
       )}
     </RecipeCard>
   );
