@@ -4,7 +4,7 @@ import { TitleContainer, MainTitle, Subtitle } from './styles';
 const Title = () => {
   return (
     <TitleContainer>
-      <MainTitle>ORBITAL</MainTitle>
+      <MainTitle>Reciper</MainTitle>
       <Subtitle>Let's get cooking</Subtitle>
     </TitleContainer>
   );

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import SearchIcon from '@mui/icons-material/Search';
 
 export const SearchContainer = styled.div`
   display: flex;
@@ -8,20 +7,28 @@ export const SearchContainer = styled.div`
   max-width: 500px;
   margin: 2rem auto;
   background-color: ${({ theme }) => theme.bgLight};
+  border: 2px solid ${({ theme }) => theme.border};
   border-radius: 12px;
   padding: 8px 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px ${({ theme }) => theme.shadowLight};
   transition: all 0.3s ease;
 
   &:focus-within {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.primary};
+    border-color: ${({ theme }) => theme.primary};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.primary}20;
   }
 `;
 
-export const StyledSearchIcon = styled(SearchIcon)`
+export const StyledSearchIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
   color: ${({ theme }) => theme.text_secondary};
-  margin-right: 8px;
-  font-size: 20px;
+  
+  &::before {
+    content: "🔍";
+    font-size: 18px;
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -29,11 +36,13 @@ export const SearchInput = styled.input`
   border: none;
   outline: none;
   font-size: 16px;
-  padding: 10px;
+  padding: 10px 0;
   background: transparent;
   color: ${({ theme }) => theme.text_primary};
+  font-weight: 500;
 
   &::placeholder {
     color: ${({ theme }) => theme.text_secondary};
+    font-weight: 400;
   }
 `;
