@@ -37,6 +37,9 @@ app.get('/api/search', async (req, res) => {
   const { query, limit = 5 } = req.query;
   if (!query) return res.status(400).json({ error: 'Missing search query' });
 
+  // Add to recent searches
+  addRecentSearch(query);
+
   const cached = getCached('search', { query, limit });
   if (cached) return res.json(cached);
 
