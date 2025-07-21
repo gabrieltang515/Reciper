@@ -81,3 +81,52 @@ export const SearchButton = styled.button`
     transform: none;
   }
 `;
+
+export const SuggestionsDropdown = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: ${({ theme }) => theme.bgLight};
+  border: 2px solid ${({ theme }) => theme.border};
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 25px ${({ theme }) => theme.shadow};
+  z-index: 1000;
+  max-height: 400px;
+  overflow-y: auto;
+`;
+
+export const SuggestionCategory = styled.div`
+  padding: 12px 16px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.text_secondary};
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: ${({ theme }) => theme.bg};
+  border-bottom: 1px solid ${({ theme }) => theme.border};
+`;
+
+export const SuggestionItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: ${({ theme }) => theme.text_primary};
+  background-color: ${({ isSelected, theme }) => 
+    isSelected ? theme.primary + '20' : 'transparent'
+  };
+  border-bottom: 1px solid ${({ theme }) => theme.border}15;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.primary}20;
+    color: ${({ theme }) => theme.primary};
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+`;
