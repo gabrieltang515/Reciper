@@ -72,7 +72,10 @@ export function generateSuggestions(query, limit = 10) {
   const matchingIngredients = commonIngredients
     .filter(ingredient => ingredient.toLowerCase().includes(cleanQuery))
     .map(ingredient => `${ingredient} recipes`)
-    .filter(suggestion => !suggestions.some(s => s.includes(ingredient.split(' ')[0])));
+    .filter(suggestion => {
+      const baseIngredient = suggestion.replace(' recipes', '');
+      return !suggestions.some(s => s.includes(baseIngredient));
+    });
   
   suggestions.push(...matchingIngredients);
 
