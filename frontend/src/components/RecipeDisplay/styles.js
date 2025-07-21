@@ -174,4 +174,41 @@ export const InstructionsList = styled.ol`
       font-weight: 600;
     }
   }
+`;
+
+export const NutritionGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+`;
+
+export const NutritionItem = styled.div`
+  background: ${({ theme }) => theme.bg};
+  border: 1px solid ${({ theme }) => theme.border};
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.primary};
+    box-shadow: 0 2px 8px ${({ theme }) => theme.primary}20;
+  }
+`;
+
+export const NutritionLabel = styled.div`
+  color: ${({ theme }) => theme.text_secondary};
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+`;
+
+export const NutritionValue = styled.div`
+  color: ${({ theme }) => theme.text_primary};
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1;
 `; 
