@@ -50,6 +50,71 @@ function extractStructuredRecipe($) {
   return null;
 }
 
+function extractNutritionFromHTML($) {
+  const nutritionData = {};
+  
+  // Common selectors for nutrition information
+  const nutritionSelectors = [
+    '.nutrition-table',
+    '.recipe-nutrition',
+    '.nutrition-facts',
+    '[class*="nutrition"]',
+    '.recipe-summary-nutrition',
+    '.nutrition-summary'
+  ];
+
+  // Look for nutrition tables or sections
+  for (const selector of nutritionSelectors) {
+    const $nutritionSection = $(selector);
+    if ($nutritionSection.length) {
+      // Extract key-value pairs from nutrition section
+      $nutritionSection.find('*').each((_, el) => {
+        const $el = $(el);
+        const text = $el.text().toLowerCase();
+        
+        // Look for patterns like "Calories: 250" or "250 calories"
+        if (text.includes('calorie')) {
+          const match = text.match(/(\d+(?:,\d+)?(?:\.\d+)?)\s*(?:k?cal|calorie)/i);
+          if (match) nutritionData.calories = parseFloat(match[1].replace(',', ''));
+        }
+        
+        if (text.includes('protein')) {
+          const match = text.match(/(\d+(?:\.\d+)?)\s*g?.*protein/i);
+          if (match) nutritionData.protein = parseFloat(match[1]);
+        }
+        
+        if (text.includes('fat') && !text.includes('saturated')) {
+          const match = text.match(/(\d+(?:\.\d+)?)\s*g?.*fat/i);
+          if (match) nutritionData.fat = parseFloat(match[1]);
+        }
+        
+        if (text.includes('carb')) {
+          const match = text.match(/(\d+(?:\.\d+)?)\s*g?.*carb/i);
+          if (match) nutritionData.carbs = parseFloat(match[1]);
+        }
+        
+        if (text.includes('fiber')) {
+          const match = text.match(/(\d+(?:\.\d+)?)\s*g?.*fiber/i);
+          if (match) nutritionData.fiber = parseFloat(match[1]);
+        }
+        
+        if (text.includes('sugar')) {
+          const match = text.match(/(\d+(?:\.\d+)?)\s*g?.*sugar/i);
+          if (match) nutritionData.sugar = parseFloat(match[1]);
+        }
+        
+        if (text.includes('sodium')) {
+          const match = text.match(/(\d+(?:,\d+)?(?:\.\d+)?)\s*(?:mg)?.*sodium/i);
+          if (match) nutritionData.sodium = parseFloat(match[1].replace(',', ''));
+        }
+      });
+      break;
+    }
+  }
+
+  return Object.keys(nutritionData).length > 0 ? nutritionData : null;
+}
+
 export async function scrapeRecipeFromUrl(url) {
   if (!isAllowedDomain(url)) {
     throw new Error('Domain not supported');
