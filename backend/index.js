@@ -3,6 +3,7 @@ import cors from 'cors';
 import { config } from './config.js';
 import { searchRecipes } from './services/searchService.js';
 import { scrapeRecipeFromUrl } from './services/scrapeService.js';
+import { addRecentSearch, generateSuggestions, getCategorizedSuggestions } from './services/suggestionsService.js';
 
 const app = express();
 app.use(express.json());
