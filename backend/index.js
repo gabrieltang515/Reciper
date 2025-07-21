@@ -53,6 +53,28 @@ app.get('/api/search', async (req, res) => {
   }
 });
 
+app.get('/api/suggestions', async (req, res) => {
+  const { q = '', limit = 10, categorized = false } = req.query;
+  
+  try {
+    let suggestions;
+    
+    if (categorized === 'true') {
+      suggestions = getCategorizedSuggestions(q, parseInt(limit));
+    } else {
+      suggestions = generateSuggestions(q, parseInt(limit));
+    }
+    
+    res.json({ 
+      suggestions, 
+      query: q,
+      total: Array.isArray(suggestions) ? suggestions.length : Object.values(suggestions).flat().length
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'Suggestions failed', details: err.message });
+  }
+});
+
 app.get('/api/scrape', async (req, res) => {
   const { url } = req.query;
   if (!url) return res.status(400).json({ error: 'Missing url' });
