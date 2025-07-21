@@ -28,11 +28,23 @@ function extractStructuredRecipe($) {
     const instructions = Array.isArray(data.recipeInstructions)
       ? data.recipeInstructions.map(r => (typeof r === 'string' ? r : r.text)).filter(Boolean)
       : [];
+    
+    // Extract nutrition data
+    let nutrition = null;
+    if (data.nutrition) {
+      nutrition = cleanNutrition(data.nutrition);
+    }
+
     return {
       title: data.name || '',
       image: Array.isArray(data.image) ? data.image[0] : data.image || '',
       ingredients: data.recipeIngredient || [],
       instructions,
+      nutrition,
+      prepTime: data.prepTime || null,
+      cookTime: data.cookTime || null,
+      totalTime: data.totalTime || null,
+      servings: data.recipeYield || data.yield || null
     };
   }
   return null;
