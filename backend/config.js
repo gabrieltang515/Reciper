@@ -60,7 +60,8 @@ export const recipeDomains = [
   'goodhousekeeping.com', 'womansday.com', 'countryliving.com',
   'bbcgoodfood.com', 'jamieoliver.com', 'gordonramsay.com',
   'pioneerwoman.com', 'smittenkitchen.com', 'pinchofyum.com',
-  'minimalistbaker.com', '101cookbooks.com', 'loveandlemons.com'
+  'minimalistbaker.com', '101cookbooks.com', 'loveandlemons.com',
+  'themealdb.com'  // Added for testing purposes
 ];
 
 // Domains to exclude from scraping
