@@ -126,7 +126,7 @@ export function getCategorizedSuggestions(query, limit = 10) {
       result.recent.push(suggestion);
     } else if (popularRecipes.includes(suggestion)) {
       result.popular.push(suggestion);
-    } else if (suggestion.includes('recipes') && commonIngredients.some(ing => suggestion.includes(ing))) {
+    } else if (suggestion.includes('recipes') && commonIngredients.some(ingredient => suggestion.includes(ingredient))) {
       result.ingredients.push(suggestion);
     } else {
       result.other.push(suggestion);
