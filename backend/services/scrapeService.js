@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { config, recipeDomains } from '../config.js';
-import { cleanRecipeTitle, cleanIngredients, cleanInstructions } from '../utils/cleanText.js';
+import { cleanRecipeTitle, cleanIngredients, cleanInstructions, cleanNutrition } from '../utils/cleanText.js';
 
 function isAllowedDomain(url) {
   const domain = new URL(url).hostname.replace('www.', '');
