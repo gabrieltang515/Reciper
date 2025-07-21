@@ -4,8 +4,6 @@ export const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 600px;
-  margin: 2rem auto;
   background-color: ${({ theme }) => theme.bgLight};
   border: 2px solid ${({ theme }) => theme.border};
   border-radius: 12px;
