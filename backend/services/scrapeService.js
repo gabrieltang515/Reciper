@@ -126,14 +126,30 @@ export async function scrapeRecipeFromUrl(url) {
   });
   const $ = cheerio.load(html);
   $('script, style, nav, header, footer').remove();
+  
   let recipe = extractStructuredRecipe($);
+  
   if (!recipe) {
     const title = $('h1').first().text();
     const ingredients = $('li:contains("ingredient")').map((i, el) => $(el).text()).get();
     const instructions = $('[class*="instruction"], li:contains("step"), p:contains("step")')
       .map((i, el) => $(el).text())
       .get();
-    recipe = { title, ingredients, instructions };
+    
+    // Try to extract nutrition from HTML when structured data is not available
+    const nutrition = extractNutritionFromHTML($);
+    
+    recipe = { 
+      title, 
+      ingredients, 
+      instructions, 
+      nutrition,
+      prepTime: null,
+      cookTime: null,
+      totalTime: null,
+      servings: null,
+      image: ''
+    };
   }
 
   return {
@@ -141,6 +157,11 @@ export async function scrapeRecipeFromUrl(url) {
     image: recipe.image || '',
     ingredients: cleanIngredients(recipe.ingredients),
     instructions: cleanInstructions(recipe.instructions),
+    nutrition: recipe.nutrition,
+    prepTime: recipe.prepTime,
+    cookTime: recipe.cookTime,  
+    totalTime: recipe.totalTime,
+    servings: recipe.servings,
     source: new URL(url).hostname.replace('www.', ''),
     url,
   };
