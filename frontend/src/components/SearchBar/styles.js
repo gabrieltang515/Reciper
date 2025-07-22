@@ -116,8 +116,8 @@ export const SuggestionItem = styled.div`
   transition: all 0.2s ease;
   font-size: 14px;
   color: ${({ theme }) => theme.text_primary};
-  background-color: ${({ isSelected, theme }) => 
-    isSelected ? theme.primary + '20' : 'transparent'
+  background-color: ${({ $isSelected, theme }) => 
+    $isSelected ? theme.primary + '20' : 'transparent'
   };
   border-bottom: 1px solid ${({ theme }) => theme.border}15;
 
