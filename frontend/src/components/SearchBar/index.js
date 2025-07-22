@@ -165,7 +165,7 @@ const SearchBar = ({
                 <SuggestionItem
                   key={index}
                   theme={theme}
-                  isSelected={index === selectedIndex}
+                  $isSelected={index === selectedIndex}
                   onClick={() => handleSuggestionClick(suggestion)}
                   onMouseEnter={() => setSelectedIndex(index)}
                 >
