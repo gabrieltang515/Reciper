@@ -29,13 +29,27 @@ const SearchBar = ({
   const fetchSuggestions = async (query) => {
     setIsLoadingSuggestions(true);
     try {
-      const response = await fetch(`/api/suggestions?q=${encodeURIComponent(query)}&limit=8`);
+      const response = await fetch(`/api/suggestions?q=${encodeURIComponent(query)}&limit=8`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       setSuggestions(data.suggestions || []);
       setShowSuggestions(true);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
-      setSuggestions([]);
+      // Show fallback suggestions even if API fails
+      const fallbackSuggestions = ['chicken breast recipes', 'pasta recipes', 'chocolate cake'];
+      setSuggestions(fallbackSuggestions);
+      setShowSuggestions(true);
     } finally {
       setIsLoadingSuggestions(false);
     }
