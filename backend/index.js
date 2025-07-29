@@ -34,17 +34,26 @@ app.get('/api/hello', (req, res) => {
 
 app.get('/api/search', async (req, res) => {
   const { query, limit = 5 } = req.query;
-  if (!query) return res.status(400).json({ error: 'Missing search query' });
+  console.log(`[API] /api/search called with query='${query}', limit=${limit}`);
+  if (!query) {
+    console.log('[API] Missing search query');
+    return res.status(400).json({ error: 'Missing search query' });
+  }
 
   const cached = getCached('search', { query, limit });
-  if (cached) return res.json(cached);
+  if (cached) {
+    console.log('[API] Returning cached search result');
+    return res.json(cached);
+  }
 
   try {
     const recipes = await searchRecipes(query, parseInt(limit));
     const data = { recipes, total: recipes.length, query };
     setCached('search', { query, limit }, data);
+    console.log(`[API] Returning ${recipes.length} recipes for query='${query}'`);
     res.json(data);
   } catch (err) {
+    console.error('[API] Search failed:', err);
     res.status(500).json({ error: 'Search failed', details: err.message });
   }
 });
